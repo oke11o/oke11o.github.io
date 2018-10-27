@@ -142,7 +142,7 @@ php bin/console doctrine:migrations:migrate
 Возьмем оттуда тело экшна. Обратим внимание, что нам нужен `class Symfony\Component\Security\Http\Authentication\AuthenticationUtils`.
 Так же возьмем из документации шаблон формы.
 
-Из формы можем убрать `action="{{ path('app_login') }}"`, чтобы форма отправлялась на тот же url, на котором была отображена.
+Из формы можем убрать `action="{{ '{{' }} path('app_login') }}"`, чтобы форма отправлялась на тот же url, на котором была отображена.
 
 Добавим в шаблон переменные из контроллера.
 
@@ -403,7 +403,7 @@ public function getCredentials(Request $request)
 Мы сделаем это, когда будем делать API authenticator.
 
 2й - использую translator. 
-Обратим внимание, в шаблоне `{{ error.messageKey|trans(error.messageData, 'security') }}`
+Обратим внимание, в шаблоне `{{ '{{' }} error.messageKey|trans(error.messageData, 'security') }}`
 В debug toolbar можно посмотреть, какие. На пункте меню Translations.
 Создадим файл `translations/security.en.yaml` и там укажем перевод
 
@@ -453,7 +453,7 @@ security:
 #### Adding the CSRF Input Field
 
 ```html
-<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+<input type="hidden" name="_csrf_token" value="{{ '{{' }} csrf_token('authenticate') }}">
 ```
 
 #### Verifying the CSRF Token
@@ -873,19 +873,19 @@ class UserFixture extends BaseFixture
 {% if is_granted('ROLE_USER') %}
     <li class="nav-item dropdown" style="margin-right: 75px;">
         <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <img class="nav-profile-img rounded-circle" src="{{ asset('images/astronaut-profile.png') }}">
+          <img class="nav-profile-img rounded-circle" src="{{ '{{' }} asset('images/astronaut-profile.png') }}">
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="{{ path('app_account') }}">Profile</a>
+            <a class="dropdown-item" href="{{ '{{' }} path('app_account') }}">Profile</a>
             {% if is_granted('ROLE_ADMIN') %}
-                <a class="dropdown-item" href="{{ path('admin_article_new') }}">Create Post</a>
+                <a class="dropdown-item" href="{{ '{{' }} path('admin_article_new') }}">Create Post</a>
             {% endif %}
-            <a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
+            <a class="dropdown-item" href="{{ '{{' }} path('app_logout') }}">Logout</a>
         </div>
     </li>
 {% else %}
     <li class="nav-item">
-        <a style="color: #fff;" class="nav-link" href="{{ path('app_login') }}">Login</a>
+        <a style="color: #fff;" class="nav-link" href="{{ '{{' }} path('app_login') }}">Login</a>
     </li>
 {% endif %}
 </ul>
@@ -1051,7 +1051,7 @@ abstract class BaseController extends AbstractController
 #### Fetching the User in Twig
 
 ```twig
-<h1>Manage Your Account {{ app.user.firstName }}</h1>
+<h1>Manage Your Account {{ '{{' }} app.user.firstName }}</h1>
 ```
 
 У twig'a в симфони есть глобальная переменная `app`. И через нее можно обращаться к разным другим переменным. Типа `app.user` или `app.session`.
@@ -1061,7 +1061,7 @@ abstract class BaseController extends AbstractController
 
 Сделали страницу красивой.
 
-Стоит обратить внимание на аватар. https://robohash.org/{{ app.user.email }}
+Стоит обратить внимание на аватар. https://robohash.org/{{ '{{' }} app.user.email }}
 
 
 ## 19. Custom User Method
@@ -1087,7 +1087,7 @@ if ($this->faker->boolean) {
 
 ```twig
 {% if app.user.twitterUsername %}
-    <h4 class="white"><i class="fa fa-twitter"></i> {{ app.user.twitterUsername }}</h4>
+    <h4 class="white"><i class="fa fa-twitter"></i> {{ '{{' }} app.user.twitterUsername }}</h4>
 {% endif %}
 ```
 
@@ -1116,7 +1116,7 @@ public function getAvatarUrl(string $size = null): string
 
 ## 20. Fetching the User In a Service
 
-Мы знаем, как получить текущего пользователя в шаблоне (`{{ app.user }}`). И в контроллере `$this->getUser()`.
+Мы знаем, как получить текущего пользователя в шаблоне (`{{ '{{' }} app.user }}`). И в контроллере `$this->getUser()`.
 
 Но как его получить в сервисах? Например, в нашем `MarkdownHelper` есть метод логирования, когда в url есть слово bacon.
 И мы хотим залогировать, какой именно юзер вызвал этот метод.
@@ -1212,13 +1212,13 @@ security:
 Есть такая фигня, что мы можем быть авторизованы под своим пользователем. Потом сделали switch_user. Забыли про это и начали что-то делать из-под другого пользователя.
 Стоит напоминать о том, что мы в этом режиме. Добавим в base.html.twig большой баннер об этом.
 
-```twig
-{% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+```
+{{ '{%' }} if is_granted('ROLE_PREVIOUS_ADMIN') %}
     <div class="alert alert-warning" style="margin-bottom: 0;">
         You are currently switched to this user.
-        <a href="{{ path('app_homepage', {'_switch_user': '_exit'}) }}">Exit Impersonation</a>
+        <a href="{{ '{{' }} path('app_homepage', {'_switch_user': '_exit'}) }}">Exit Impersonation</a>
     </div>
-{% endif %}
+{{ '{%' }} endif %}
 ```
 
 Класс!!
