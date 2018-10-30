@@ -2,7 +2,7 @@
 layout: post
 title:  "ReactJs for Symfony"
 date:   2018-10-30 19:00:00 +0300
-categories: symfony tutor reactjs
+categories: symfony tutor reactjs js
 ---
 
 ## 1. The World of React + ESLint
