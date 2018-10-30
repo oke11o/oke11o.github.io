@@ -173,7 +173,7 @@ php bin/console doctrine:migrations:migrate
 Их работа - смотреть запрос и проверять, есть ли авторизационная информация. Логин/пароль или может API auth token.
 И если они есть, попробовать аутентицироваться.
 
-#### Understanding Firewalls
+#### Понимание Firewalls
 
 Откроем конфиг `config/packages/security.yaml`. Главная секция там `firewalls`. Что же такое firewall на языке Симфони.
 Вернемся к теории. Есть 2 главных части: authentication and authorization.
@@ -197,7 +197,7 @@ Authorization выполняется после Authentication и определ
 Даже если таких страниц нет, лучше это оставить, а запрет делать в спец месте `access_control`.
 
 
-#### Creating the Authentication with 
+#### Creating the Authentication with make:auth
 
 ```php bin/console make:auth``` и назовем класс `LoginFormAuthenticator`.
 
